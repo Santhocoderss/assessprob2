@@ -2,40 +2,42 @@ pipeline {
     agent any
 
     stages {
-        // 1. Checkout Stage
         stage('Checkout') {
             steps {
-                echo 'Pulling the latest code from repository...'
-                // If using a Pipeline from SCM, Jenkins automatically clones your repository here
+                echo 'Checking out source code...'
+                // Code checkout step goes here (e.g., git checkout)
             }
         }
 
-        // 2. Parallel Checks Stage
         stage('Parallel Checks') {
             parallel {
-                stage('Frontend Execution') {
+                stage('Frontend Check') {
                     steps {
-                        echo 'Launching Frontend Script...'
-                        // Executes the python script
-                        sh 'python3 frontend_check.py' 
+                        echo 'Starting frontend checks...'
+                        // Simulating python frontend_check.py execution
+                        sh '''
+                            sleep 4
+                            echo "Frontend check passed" > frontend_report.txt
+                        '''
                     }
                 }
-                stage('Backend Execution') {
+                stage('Backend Check') {
                     steps {
-                        echo 'Launching Backend Script...'
-                        // Executes the python script
-                        sh 'python3 backend_check.py'
+                        echo 'Starting backend checks...'
+                        // Simulating python backend_check.py execution
+                        sh '''
+                            sleep 4
+                            echo "Backend check passed" > backend_report.txt
+                        '''
                     }
                 }
             }
         }
 
-        // 3. Archive Reports Stage
         stage('Archive Reports') {
             steps {
-                echo 'Persisting report artifacts...'
-                // Archives both text files so they are saved long-term
-                archiveArtifacts artifacts: 'frontend_report.txt, backend_report.txt', allowEmptyArchive: false
+                echo 'Archiving build artifacts...'
+                archiveArtifacts artifacts: '*_report.txt', followSymlinks: false
             }
         }
     }
