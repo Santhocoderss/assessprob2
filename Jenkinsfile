@@ -5,7 +5,6 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo 'Checking out source code...'
-                // Code checkout step goes here (e.g., git checkout)
             }
         }
 
@@ -14,20 +13,19 @@ pipeline {
                 stage('Frontend Check') {
                     steps {
                         echo 'Starting frontend checks...'
-                        // Simulating python frontend_check.py execution
-                        sh '''
-                            sleep 4
-                            echo "Frontend check passed" > frontend_report.txt
+                        // Simulating the 4-second delay and report creation on Windows
+                        bat '''
+                            timeout /t 4 /nobreak
+                            echo Frontend check passed > frontend_report.txt
                         '''
                     }
                 }
                 stage('Backend Check') {
                     steps {
                         echo 'Starting backend checks...'
-                        // Simulating python backend_check.py execution
-                        sh '''
-                            sleep 4
-                            echo "Backend check passed" > backend_report.txt
+                        bat '''
+                            timeout /t 4 /nobreak
+                            echo Backend check passed > backend_report.txt
                         '''
                     }
                 }
