@@ -5,6 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo 'Checking out source code...'
+                // Code checkout step goes here
             }
         }
 
@@ -13,20 +14,21 @@ pipeline {
                 stage('Frontend Check') {
                     steps {
                         echo 'Starting frontend checks...'
-                        // Simulating the 4-second delay and report creation on Windows
-                        bat '''
-                            timeout /t 4 /nobreak
-                            echo Frontend check passed > frontend_report.txt
-                        '''
+                        // Jenkins native platform-independent sleep
+                        sleep time: 4, unit: 'SECONDS'
+                        
+                        // Writes the file cleanly on Windows or Linux
+                        writeFile file: 'frontend_report.txt', text: 'Frontend check completed successfully.'
                     }
                 }
                 stage('Backend Check') {
                     steps {
                         echo 'Starting backend checks...'
-                        bat '''
-                            timeout /t 4 /nobreak
-                            echo Backend check passed > backend_report.txt
-                        '''
+                        // Jenkins native platform-independent sleep
+                        sleep time: 4, unit: 'SECONDS'
+                        
+                        // Writes the file cleanly on Windows or Linux
+                        writeFile file: 'backend_report.txt', text: 'Backend check completed successfully.'
                     }
                 }
             }
